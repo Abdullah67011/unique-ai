@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced AI Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --background-color: #f4f7f6;
+    --sidebar-bg: #ffffff;
+    --user-msg-bg: #dcf8c6;
+    --bot-msg-bg: #ffffff;
+    --border-color: #e0e0e0;
+    --font-family: 'Inter', sans-serif;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+.app-container {
+    display: flex;
+    width: 90vw;
+    max-width: 1400px;
+    height: 90vh;
+    max-height: 900px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    background-color: var(--sidebar-bg);
+}
+
+.sidebar {
+    width: 350px;
+    min-width: 300px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.new-chat-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+
+.new-chat-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.conversation-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.conversation-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.conversation-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+.conversation-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    background-color: transparent;
+}
+
+.conversation-item:hover {
+    background-color: #f0f0f0;
+}
+
+.conversation-item.active {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+.conversation-item.active .time {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.conversation-item .icon {
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.conversation-item .title {
+    flex-grow: 1;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversation-item .time {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    margin-left: 10px;
+}
+
+.chat-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+}
+
+.chat-header {
+    padding: 15px 30px;
+    background-color: var(--sidebar-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-light);
+}
+
+.chat-header h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-dot.online {
+    background-color: #28a745;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px 30px;
+    overflow-y: auto;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f4f7f6"/><circle cx="50" cy="50" r="1" fill="%23e0e0e0" opacity="0.3"/></svg>');
+    background-repeat: repeat;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0;
+    border-radius: 4px;
+}
+
+.msg {
+    max-width: 70%;
+    padding: 12px 18px;
+    margin-bottom: 15px;
+    border-radius: 18px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.msg.bot {
+    background-color: var(--bot-msg-bg);
+    border-top-left-radius: 5px;
+    margin-right: auto;
+}
+
+.msg.user {
+    background-color: var(--user-msg-bg);
+    border-top-right-radius: 5px;
+    margin-left: auto;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 15px 30px;
+    background-color: var(--sidebar-bg);
+    border-top: 1px solid var(--border-color);
+    align-items: flex-end;
+}
+
+#inp {
+    flex-grow: 1;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    font-size: 1rem;
+    resize: none;
+    min-height: 50px;
+    max-height: 150px;
+    margin-right: 15px;
+    font-family: var(--font-family);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#inp:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.send-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.send-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.send-btn svg {
+    width: 24px;
+    height: 24px;
+    transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .sidebar {
+        position: absolute;
+        left: -350px;
+        height: 100%;
+        z-index: 10;
+        transition: left 0.3s ease-in-out;
+    }
+
+    .chat-main {
+        width: 100%;
+    }
+
+    .chat-messages {
+        padding: 15px;
+    }
+
+    .chat-input-area {
+        padding: 10px 15px;
+    }
+
+    .msg {
+        max-width: 85%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Conversations</h2>
+                <button class="new-chat-btn" title="Start New Chat">+</button>
+            </div>
+            <div class="conversation-list">
+            </div>
+        </aside>
+
+        <main class="chat-main">
+            <header class="chat-header">
+                <h1>Unique AI</h1>
+                <div class="user-profile">
+                    <span class="status-dot online"></span>
+                    <span class="user-name">Online</span>
+                </div>
+            </header>
+
+            <div id="chat" class="chat-messages">
+            </div>
+
+            <footer class="chat-input-area">
+                <textarea id="inp" placeholder="Type your message here..."></textarea>
+                <button id="send" class="send-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </footer>
+        </main>
+    </div>
+
+    <script src="/chat.js"></script>
+</body>
+</html>

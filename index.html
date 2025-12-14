@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smart AI — Your Personal Chat Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: white;
+      --dark: #0b1220;
+      --light: #f9fafb;
+      --text-light: #e5e7eb;
+      --text-dark: #111827;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-dark);
+      background: var(--light);
+    }
+
+    header {
+      background: var(--dark);
+      color: var(--text-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 8%;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    nav a {
+      color: var(--text-light);
+      margin-left: 24px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 100px 8%;
+      background: linear-gradient(180deg, var(--dark), #111827);
+      color: var(--text-light);
+      flex-wrap: wrap;
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero-content h2 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.7;
+      color: var(--text-light);
+    }
+
+    .start-btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 999px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color:#0b1220;
+    }
+
+    .start-btn:hover {
+      transform: scale(1.05);
+      background: #0891b2;
+    }
+
+    .hero img {
+      max-width: 500px;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .features {
+      text-align: center;
+      padding: 100px 8%;
+      background: #fff;
+    }
+
+    .features h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 40px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 40px;
+    }
+
+    .feature {
+      background: var(--light);
+      border-radius: 16px;
+      padding: 40px 24px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    .feature h3 {
+      font-size: 1.4rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #4b5563;
+      line-height: 1.6;
+    }
+
+    .info-section {
+      padding: 100px 8%;
+      background: var(--dark);
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    .info-section h2 {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .info-section p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+      color: #cbd5e1;
+    }
+
+    footer {
+      background:#0f172a;
+      color: #aaa;
+      text-align: center;
+      padding: 30px;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 6%;
+      }
+      .hero-content h2 {
+        font-size: 2.2rem;
+      }
+      .hero img {
+        margin-top: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Smart AI</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Empower Your Ideas with Smart AI</h2>
+      <p>Experience the next generation of intelligent chat — from creative brainstorming to real-time assistance, Smart AI helps you work smarter and faster.</p>
+      <button class="start-btn" id="start-btn">Start AI Chat</button>
+    </div>
+    <img src="/chatgpt.png" alt="AI Chat Illustration">
+  </section>
+
+  <section class="features" id="features">
+    <h2>Why Smart AI?</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>Real-time Conversations</h3>
+        <p>Enjoy smooth, human-like conversations that respond instantly to your needs.</p>
+      </div>
+      <div class="feature">
+        <h3>Intelligent Learning</h3>
+        <p>Our AI learns and improves from every interaction, giving you better results over time.</p>
+      </div>
+      <div class="feature">
+        <h3>Lightning Fast</h3>
+        <p>Optimized backend ensures your chats and queries are processed in milliseconds.</p>
+      </div>
+      <div class="feature">
+        <h3>Secure & Private</h3>
+        <p>Your data stays protected with end-to-end encryption and safe AI processing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section" id="about">
+    <h2>Built for the Future</h2>
+    <p>Smart AI isn't just another chatbot, it's a leap toward truly interactive digital intelligence. Whether you're coding, writing, learning, or exploring new ideas, Smart AI evolves with you, helping you achieve more with less effort.</p>
+  </section>
+
+  <footer>
+    © 2025 Smart AI. All rights reserved. 
+  </footer>
+
+  <script src="/chat.js"></script>
+</body>
+</html>
